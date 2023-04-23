@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+    postgres:                                           
+        image: postgres:13.1
+        hostname: postgresql
+        container_name: postgres
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=airflow
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+
+    scheduler:
+        image: apache/airflow:2.5.3
+        command: scheduler
+        depends_on:
+            - postgres
+        env_file:
+            - .env
+        volumes:
+            - ./dags:/opt/airflow/dags
+            - ./logs:/opt/airflow/logs
+            - ./csv:/opt/airflow/csv
+        
+    webserver:
+        image: apache/airflow:2.5.3
+        entrypoint: ./scripts/entrypoint.sh
+        depends_on:
+            - postgres
+            - scheduler
+        env_file:
+            - .env
+        volumes:
+            - ./dags:/opt/airflow/dags
+            - ./logs:/opt/airflow/logs
+            - ./scripts:/opt/airflow/scripts
+        ports:
+            - "8080:8080"
+
+volumes:
+    postgres_data:
