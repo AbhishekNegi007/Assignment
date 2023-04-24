@@ -1,13 +1,8 @@
-version: '3.7'
+version: '3.8'
 services:
     postgres:                                           
-        image: postgres:13.1
+        image: postgres
         hostname: postgresql
-        container_name: postgres
-        volumes:
-            - postgres_data:/var/lib/postgresql/data/
-        ports:
-            - "5432:5432"
         environment:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
@@ -39,6 +34,3 @@ services:
             - ./scripts:/opt/airflow/scripts
         ports:
             - "8080:8080"
-
-volumes:
-    postgres_data:
