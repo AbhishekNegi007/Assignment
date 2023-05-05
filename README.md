@@ -1,4 +1,4 @@
-# Assignment
+# Docker - python - Airflow - postgres
 ETL Pipeline for a Sales Dataset
 This is an ETL pipeline that extracts sales data from a CSV file, transforms it, and loads it into a PostgreSQL database.
 
